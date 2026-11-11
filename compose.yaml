@@ -1,0 +1,166 @@
+name: robot-component-health-monitor
+
+x-app: &app
+  image: robot-component-health-monitor:local
+  build:
+    context: .
+    target: app
+  environment:
+    RCHM_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-rchm_local}:${POSTGRES_PASSWORD:?Run Initialize-LocalEnvironment.ps1}@postgres:5432/${POSTGRES_DB:-component_health}
+  mem_limit: 512m
+
+services:
+  postgres:
+    image: postgres:17-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-rchm_local}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run Initialize-LocalEnvironment.ps1}
+      POSTGRES_DB: ${POSTGRES_DB:-component_health}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    mem_limit: 512m
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"']
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  migrate:
+    <<: *app
+    command: [python, -m, alembic, upgrade, head]
+    depends_on:
+      postgres:
+        condition: service_healthy
+  api:
+    <<: *app
+    image: robot-component-health-monitor-pipeline:local
+    build:
+      context: .
+      target: pipeline
+    command: [uvicorn, component_health.api:create_app, --factory, --host, 0.0.0.0, --port, '8000']
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - '127.0.0.1:${API_PORT:-8020}:8000'
+    volumes:
+      - raw_data:/raw:ro
+      - analytical_data:/analytics:ro
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz',timeout=4)"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  dashboard:
+    image: robot-component-health-monitor-dashboard:local
+    build:
+      context: .
+      target: dashboard
+    environment:
+      RCHM_API_URL: http://api:8000
+    ports:
+      - '127.0.0.1:${DASHBOARD_PORT:-8502}:8501'
+    depends_on:
+      api:
+        condition: service_healthy
+    mem_limit: 768m
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /home/app/.streamlit:uid=10001,gid=10001,mode=0700
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health',timeout=4)"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+  receiver:
+    <<: *app
+    profiles: [ingestion]
+    command: [python, -m, component_health.ingestion, ingest]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - type: bind
+        source: ${RCHM_INPUT_DIRECTORY:-./inputs/2nd_test}
+        target: /input
+        read_only: true
+        bind:
+          create_host_path: false
+      - raw_data:/raw
+    cpus: 2
+    mem_limit: 1g
+  replay:
+    <<: *app
+    profiles: [ingestion]
+    command: [python, -m, component_health.ingestion, replay]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - raw_data:/raw
+    cpus: 2
+    mem_limit: 1g
+  test-postgres:
+    image: postgres:17-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994
+    profiles: [test]
+    environment:
+      POSTGRES_USER: rchm_test_admin
+      POSTGRES_PASSWORD: isolated-local-test-only
+      POSTGRES_DB: postgres
+    tmpfs:
+      - /var/lib/postgresql/data
+    mem_limit: 512m
+    healthcheck:
+      test: [CMD, pg_isready, -U, rchm_test_admin, -d, postgres]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+  pipeline:
+    <<: *app
+    image: robot-component-health-monitor-pipeline:local
+    build:
+      context: .
+      target: pipeline
+    profiles: [pipeline]
+    command: [python, -m, component_health.features, --orchestrated]
+    environment:
+      RCHM_DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-rchm_local}:${POSTGRES_PASSWORD:?Run Initialize-LocalEnvironment.ps1}@postgres:5432/${POSTGRES_DB:-component_health}
+      PREFECT_SERVER_ANALYTICS_ENABLED: 'false'
+      PREFECT_HOME: /home/app/.prefect
+      PREFECT_SERVER_EPHEMERAL_STARTUP_TIMEOUT_SECONDS: '90'
+      PREFECT_LOGGING_LEVEL: INFO
+      DO_NOT_TRACK: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      OMP_NUM_THREADS: '1'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    volumes:
+      - raw_data:/raw:ro
+      - analytical_data:/analytics
+    cpus: 2
+    mem_limit: 1g
+  tests:
+    image: robot-component-health-monitor-tests:local
+    build:
+      context: .
+      target: tests
+    profiles: [test]
+    environment:
+      RCHM_TEST_DATABASE_URL: postgresql+psycopg://rchm_test_admin:isolated-local-test-only@test-postgres:5432/postgres
+    depends_on:
+      test-postgres:
+        condition: service_healthy
+    mem_limit: 512m
+  dashboard-tests:
+    image: robot-component-health-monitor-dashboard-tests:local
+    build:
+      context: .
+      target: dashboard-tests
+    profiles: [test]
+    mem_limit: 768m
+
+volumes:
+  postgres_data:
+  raw_data:
+  analytical_data:

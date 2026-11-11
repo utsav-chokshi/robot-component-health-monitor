@@ -1,0 +1,15 @@
+{
+  "version": "ims2-evaluation-metrics-v1",
+  "partitions": ["development", "evaluation"],
+  "source_coverage": "accepted recording identities / declared recordings",
+  "feature_coverage": "eligible recording-channel slots / declared slots",
+  "score_coverage": "scorable slots / declared operational slots",
+  "threshold_burden": "scorable values >= 6 / scorable slots",
+  "active_window_burden": "scorable slots with an active alert reference after transition / scorable slots; excludes closure slots",
+  "zero_denominator": "null ratio with NOT_APPLICABLE status",
+  "alert_metrics": ["activations", "closed", "open_at_boundary", "interrupted_coverage", "evidence_rows", "pending_entry_groups"],
+  "unsupported": ["false_alarm_rate", "precision", "recall", "f1", "fault_classification_accuracy", "warning_lead_time", "failure_probability", "remaining_useful_life"],
+  "unsupported_reason": "Healthy/fault-onset labels, calibrated outcomes and exact failure timing are not established",
+  "time_interpretation": "Observed windows and timestamp spans are not continuous failure or alarm durations",
+  "duplicate_delivery_attempts": "NOT_MEASURED: command summaries are not a durable transport-attempt journal"
+}

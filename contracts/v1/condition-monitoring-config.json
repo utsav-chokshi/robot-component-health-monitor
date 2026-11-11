@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0.0",
+  "configuration_id": "ims2-monitoring-v1",
+  "identity_namespace_uuid": "3e4b4937-ad67-565c-a2fc-d0cd52310466",
+  "source_archive_sha256": "21001ac266c465f5d345ec42d7b508c6a6328487fd9d4d7774422dd5ea10ad83",
+  "source_inventory_sha256": "04deccd0803fe16e262c8ae7539859463677c97338760b9fd41455339c20bdec",
+  "experiment": "ims-test-2",
+  "channels": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "expected_recordings": 984,
+  "expected_channel_slots": 3936,
+  "window": {
+    "sample_start": 0,
+    "sample_stop_exclusive": 20480,
+    "overlap": 0,
+    "concatenate_recordings": false,
+    "nominal_sample_rate_hz": 20000,
+    "timing_uncertainty": true,
+    "source_timezone": "UNSPECIFIED"
+  },
+  "features": {
+    "version": "time-domain-v1",
+    "dtype": "float64",
+    "names": [
+      "rms",
+      "std_population",
+      "absolute_peak",
+      "crest_factor"
+    ],
+    "rtol": 1e-09,
+    "atol": 1e-12,
+    "amplitude_unit": "native_numeric"
+  },
+  "baseline": {
+    "fit_partition": "reference",
+    "minimum_valid_windows_per_channel": 32,
+    "location": "median_rms",
+    "scale": "1.4826_times_median_absolute_deviation",
+    "score": "abs(rms-location)/scale",
+    "invalid_scale": "UNSCORABLE",
+    "reference_health": "ASSUMED_NOT_LABELED"
+  },
+  "alerts": {
+    "entry_score_gte": 6.0,
+    "entry_consecutive_valid_slots": 2,
+    "clear_score_lt": 4.0,
+    "clear_consecutive_valid_slots": 3,
+    "expected_capture_interval_seconds": 600,
+    "gap_or_unscorable": "RESET_STREAKS_KEEP_ACTIVE_MARK_UNKNOWN",
+    "partition_state": "RESET_AT_EACH_PARTITION",
+    "end_active_state": "OPEN_AT_BOUNDARY"
+  },
+  "partitions": {
+    "reference": [
+      1,
+      196
+    ],
+    "development": [
+      197,
+      392
+    ],
+    "evaluation": [
+      393,
+      984
+    ]
+  },
+  "agent": {
+    "enabled_by_default": false,
+    "integration_status": "PENDING_NEW_PASSING_PILOT"
+  },
+  "disclosure": "Initial designed heuristic; not fitted/evaluated detector performance. Source units/fault-onset/healthy labels remain unestablished."
+}

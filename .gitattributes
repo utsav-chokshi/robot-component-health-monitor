@@ -1,0 +1,2 @@
+# Build identities bind exact file bytes. Preserve them on every checkout.
+* -text

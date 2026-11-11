@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Guarded agent action v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "action": {
+      "enum": [
+        "get_quality_findings",
+        "get_feature_trend",
+        "finish"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "action"
+  ]
+}

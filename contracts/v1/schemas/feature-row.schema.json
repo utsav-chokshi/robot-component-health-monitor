@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Feature row v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "feature_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "recording_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "channel_index": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 4
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "ordinal": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 984
+    },
+    "partition": {
+      "enum": [
+        "reference",
+        "development",
+        "evaluation"
+      ]
+    },
+    "sample_start": {
+      "const": 0
+    },
+    "sample_stop_exclusive": {
+      "const": 20480
+    },
+    "feature_definition": {
+      "const": "time-domain-v1"
+    },
+    "amplitude_unit": {
+      "const": "native_numeric"
+    },
+    "crest_unit": {
+      "const": "dimensionless_ratio"
+    },
+    "rms": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "std_population": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "absolute_peak": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "crest_factor": {
+      "type": [
+        "number",
+        "null"
+      ]
+    },
+    "quality_status": {
+      "enum": [
+        "VALID",
+        "UNSCORABLE"
+      ]
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "feature_id",
+    "recording_id",
+    "channel_index",
+    "source_sha256",
+    "ordinal",
+    "partition",
+    "sample_start",
+    "sample_stop_exclusive",
+    "feature_definition",
+    "amplitude_unit",
+    "crest_unit",
+    "rms",
+    "std_population",
+    "absolute_peak",
+    "crest_factor",
+    "quality_status",
+    "reason_codes"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "quality_status": {
+            "const": "VALID"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "rms": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "std_population": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "absolute_peak": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "crest_factor": {
+            "type": "number",
+            "minimum": 1
+          },
+          "reason_codes": {
+            "maxItems": 0
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "reason_codes": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

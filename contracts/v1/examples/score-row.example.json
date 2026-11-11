@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "score_id": "19138cf8-8cad-5280-9647-ae1834dc31d6",
+  "window_id": "09b1c4ec-122a-573a-8200-d1fba7e26b9c",
+  "feature_id": "254dec74-3864-5a55-8b8b-d88f7734625f",
+  "baseline_id": "56fae8da-5244-58e2-bf06-5c86cbbe5d80",
+  "channel_index": 1,
+  "partition": "evaluation",
+  "source_time": "2004-02-15T03:52:39",
+  "source_timezone": "UNSPECIFIED",
+  "quantity_kind": "robust_deviation",
+  "unit": "dimensionless",
+  "value": 7.0,
+  "direction": "ABOVE_REFERENCE",
+  "entry_threshold": 6.0,
+  "clear_threshold": 4.0,
+  "status": "SCORABLE",
+  "reason_codes": []
+}

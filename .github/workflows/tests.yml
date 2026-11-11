@@ -1,0 +1,59 @@
+name: Foundation checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:17-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994
+        env:
+          POSTGRES_USER: rchm_test_admin
+          POSTGRES_PASSWORD: isolated-ci-test-only
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U rchm_test_admin -d postgres"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 20
+    env:
+      RCHM_ORCHESTRATOR_PYTHON: /tmp/rchm-orchestrator/bin/python
+      RCHM_TEST_DATABASE_URL: postgresql+psycopg://rchm_test_admin:isolated-ci-test-only@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-test.lock
+      - name: Install locked environment and application
+        run: |
+          python -m pip install --require-hashes -r requirements-build.lock
+          python -m pip install --require-hashes -r requirements-test.lock
+          python -m pip install --require-hashes -r requirements-pipeline.lock
+          python -m pip install --no-deps --no-build-isolation .
+          python -m pip check
+          python -m venv /tmp/rchm-orchestrator
+          /tmp/rchm-orchestrator/bin/pip install --require-hashes -r requirements-orchestration.lock
+          /tmp/rchm-orchestrator/bin/pip check
+      - name: Check foundation and isolated database migrations
+        run: python -m pytest -q -p no:cacheprovider
+  dashboard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Build isolated dashboard tests
+        run: docker build --target dashboard-tests -t rchm-dashboard-tests .
+      - name: Verify interaction, empty and unavailable states without network
+        run: docker run --rm --network none --memory 768m rchm-dashboard-tests

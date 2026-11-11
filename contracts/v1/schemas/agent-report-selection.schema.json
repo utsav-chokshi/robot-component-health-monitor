@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Guarded agent report selection v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "facts": {
+      "type": "array",
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "enum": [
+              "INPUT_UNSCORABLE",
+              "SCORE_EXCEEDS_ENTRY_THRESHOLD",
+              "RMS_ABOVE_REFERENCE",
+              "RMS_BELOW_REFERENCE",
+              "COVERAGE_INTERRUPTED",
+              "HISTORICAL_DEFECT_CONTEXT"
+            ]
+          },
+          "evidence_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        "required": [
+          "code",
+          "evidence_id"
+        ]
+      }
+    },
+    "next_checks": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "REVIEW_SOURCE_QUALITY",
+          "INSPECT_SIGNAL",
+          "CHECK_SENSOR_SETUP",
+          "REVIEW_OPERATING_CONTEXT",
+          "COLLECT_MORE_OBSERVATIONS",
+          "CONTINUE_OBSERVATION"
+        ]
+      }
+    },
+    "missing_evidence": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "QUALITY_UNAVAILABLE",
+          "TREND_UNAVAILABLE",
+          "UNKNOWN_ALERT",
+          "INSUFFICIENT_SOURCE_COVERAGE",
+          "PHYSICAL_UNITS_UNVERIFIED",
+          "FAULT_TIMING_UNAVAILABLE"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "maintenance_executed": {
+      "const": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "facts",
+    "next_checks",
+    "missing_evidence",
+    "maintenance_executed"
+  ]
+}

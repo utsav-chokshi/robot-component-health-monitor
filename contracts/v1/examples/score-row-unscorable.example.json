@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "score_id": "19138cf8-8cad-5280-9647-ae1834dc31d6",
+  "window_id": "09b1c4ec-122a-573a-8200-d1fba7e26b9c",
+  "feature_id": null,
+  "baseline_id": null,
+  "channel_index": 1,
+  "partition": "evaluation",
+  "source_time": "2004-02-15T03:52:39",
+  "source_timezone": "UNSPECIFIED",
+  "quantity_kind": "robust_deviation",
+  "unit": "dimensionless",
+  "value": null,
+  "direction": null,
+  "entry_threshold": 6.0,
+  "clear_threshold": 4.0,
+  "status": "UNSCORABLE",
+  "reason_codes": [
+    "MISSING_INPUT"
+  ]
+}

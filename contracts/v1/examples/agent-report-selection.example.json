@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0.0",
+  "facts": [
+    {
+      "code": "SCORE_EXCEEDS_ENTRY_THRESHOLD",
+      "evidence_id": "5bc73c51-8756-5a04-9a3a-e1e92cc48d39"
+    }
+  ],
+  "next_checks": [
+    "INSPECT_SIGNAL"
+  ],
+  "missing_evidence": [
+    "PHYSICAL_UNITS_UNVERIFIED",
+    "FAULT_TIMING_UNAVAILABLE"
+  ],
+  "maintenance_executed": false
+}

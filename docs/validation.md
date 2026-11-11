@@ -1,0 +1,23 @@
+# Observed local verification
+
+Current completed stage: frozen chronological evaluation. **65 passed, 1 warning in 61.58s (0:01:01)**. Read the [full measured results](evaluation-results.md) and [reproduction guide](evaluation.md).
+
+Coverage: 984/984 recordings, 3,936/3,936 eligible feature slots and 3,152/3,152 operational scores. Four unchanged reference baselines drive 784 development and 2,368 evaluation scores. Evaluation produced four open-boundary reference-relative alerts (one/channel), with 950/2,368 threshold-exceeding windows; development remains unchanged with no excursions. These are observable signal/coverage results, not fault-classification accuracy. Unsupported label/timing-based metrics remain null / NOT_APPLICABLE; detector suitability is NOT_ESTABLISHED.
+
+The registered plan predates scoring. Full recomputation matched all manifests/metrics/table hashes. An independent oracle checked all scores and episodes; original raw/receipt/feature and baseline evidence is unchanged. Missing/unscorable and zero-denominator cases, partition reset, no-fit evaluation, immutable plans, corruption and registration recovery passed controlled tests. API/database are healthy; temporary test databases are removed/stopped. The one TestClient warning is a dependency deprecation.
+
+Cached data/images were reused. Fresh-host/download/extraction and hard-kill validation remain pending Step 11; Linux/amd64 only and remote CI unobserved. Dashboard/per-row readers remain Step 10 work, agent disabled, and production least-privilege roles remain unfinished. The dataset retains unspecified timezone/native physical units and lacks reliable healthy/fault-onset labels.
+## Step 10: evidence dashboard (2026-11-10)
+
+The final core/API suite passed **66 tests** (one framework deprecation warning, 69.17 seconds); the isolated Streamlit suite passed **five tests** (3.88 seconds). Cases include selected-build bounds, pagination, invalid and foreign identifiers, missing evidence, corruption after an earlier successful read, reference-only scope, unavailable API and empty catalog. Errors do not produce invented zero counters.
+
+Live Docker checks covered all four channels, all 949 evidence rows and eight original raw previews. Original receipt/checksum validation and global peak preservation passed. Frozen evaluation recomputation retained the same build ID, manifest and metrics. Dashboard health returned 200; selective inspection confirmed no database credentials, no data mounts and a read-only root. Browser inspection confirmed the rendered trends, alert evidence with verified raw receipt, and provenance waveform. At a compact screen width the sidebar overlays the page; collapse it to inspect charts.
+
+The original frozen modules and runtime/pipeline/orchestration locks are unchanged. The model remains disabled. These observations do not establish fault-prediction suitability. Fresh application-volume reproduction, interruption/replay and broader resource validation remain Step 11. Remote CI remains unobserved. See [dashboard reproduction](dashboard.md).
+## Step 11: full workflow validation (2026-11-10)
+
+An isolated Docker project with empty application volumes ingested and verified all 984 original recordings (544,618,480 bytes), recovered four targeted Docker SIGKILL stops and reproduced the original feature/development/evaluation manifests and final metrics exactly. An orchestrated Prefect frozen rebuild also matched. Corrupt Parquet/raw/receipts and missing evidence were rejected; verified restoration recovered reads. A database-stop exercise recovered readiness and readers without restarting the API.
+
+The outage campaign found catalog routes returning HTTP 500; they now return a generic 503 through a tested SQLAlchemy error handler. Final suites: **67 core/API and five dashboard tests passed**, with one known core framework deprecation warning. Local two-client/12-request and eight-client/16-request smoke exercises checked bounded responses. No OOM kills occurred; the maximum sampled validation worker container was 561.5 MiB under its 1-GiB limit. This is sampled local evidence, not a production-load benchmark or an absolute peak guarantee.
+
+Cached extracted source, base images and dependency wheels were reused. Fresh-host/download/extraction, every possible interruption point, host power loss, other architectures and remote CI remain unverified. Original analysis modules/three locks and frozen results are unchanged. Fault-prediction suitability remains NOT_ESTABLISHED without reliable labels; the agent remains disabled. Follow the [complete reproduction and recovery guide](reproduction.md).

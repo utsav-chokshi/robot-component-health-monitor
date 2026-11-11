@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "receipt_id": "b628578d-701d-5f98-9b64-5694b7216fb0",
+  "recording_id": "d4292268-bd7f-5d40-9ce3-dd9a95344490",
+  "dataset_release": "ims-nasa-archive-21001ac266c4",
+  "experiment": "ims-test-2",
+  "source_key": "2nd_test/2004.02.12.10.32.39",
+  "source_time": "2004-02-12T10:32:39",
+  "source_timezone": "UNSPECIFIED",
+  "received_at_utc": "2026-11-10T12:00:00Z",
+  "expected_sha256": "bbbe024d55d76554a087bbbed3974e36505cd67da6cd066c341c6d35ecb68b7a",
+  "source_sha256": "bbbe024d55d76554a087bbbed3974e36505cd67da6cd066c341c6d35ecb68b7a",
+  "size_bytes": 557958,
+  "raw_preserved": true,
+  "artifact_sha256": "bbbe024d55d76554a087bbbed3974e36505cd67da6cd066c341c6d35ecb68b7a",
+  "admission_status": "ACCEPTED",
+  "sample_rows": 20480,
+  "channels": 4,
+  "reason_codes": []
+}

@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Recording receipt v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "receipt_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "recording_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "dataset_release": {
+      "const": "ims-nasa-archive-21001ac266c4"
+    },
+    "experiment": {
+      "const": "ims-test-2"
+    },
+    "source_key": {
+      "type": "string",
+      "pattern": "^2nd_test/\\d{4}(\\.\\d{2}){5}$"
+    },
+    "source_time": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}$"
+    },
+    "source_timezone": {
+      "const": "UNSPECIFIED"
+    },
+    "received_at_utc": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "Z$"
+    },
+    "expected_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "source_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "raw_preserved": {
+      "type": "boolean"
+    },
+    "artifact_sha256": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "admission_status": {
+      "enum": [
+        "ACCEPTED",
+        "QUARANTINED",
+        "CONFLICT",
+        "REJECTED"
+      ]
+    },
+    "sample_rows": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "channels": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "reason_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "receipt_id",
+    "recording_id",
+    "dataset_release",
+    "experiment",
+    "source_key",
+    "source_time",
+    "source_timezone",
+    "received_at_utc",
+    "expected_sha256",
+    "source_sha256",
+    "size_bytes",
+    "raw_preserved",
+    "artifact_sha256",
+    "admission_status",
+    "sample_rows",
+    "channels",
+    "reason_codes"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "raw_preserved": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "artifact_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "artifact_sha256": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "admission_status": {
+            "const": "ACCEPTED"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "raw_preserved": {
+            "const": true
+          },
+          "sample_rows": {
+            "const": 20480
+          },
+          "channels": {
+            "const": 4
+          },
+          "source_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "reason_codes": {
+            "maxItems": 0
+          }
+        }
+      }
+    }
+  ]
+}

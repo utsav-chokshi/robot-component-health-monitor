@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "feature_id": "7ee6f91e-ee30-52a1-b37a-1fc709ab3a6d",
+  "recording_id": "d4292268-bd7f-5d40-9ce3-dd9a95344490",
+  "channel_index": 1,
+  "source_sha256": "bbbe024d55d76554a087bbbed3974e36505cd67da6cd066c341c6d35ecb68b7a",
+  "ordinal": 1,
+  "partition": "reference",
+  "sample_start": 0,
+  "sample_stop_exclusive": 20480,
+  "feature_definition": "time-domain-v1",
+  "amplitude_unit": "native_numeric",
+  "crest_unit": "dimensionless_ratio",
+  "rms": 0.17,
+  "std_population": 0.16,
+  "absolute_peak": 0.34,
+  "crest_factor": 2.0,
+  "quality_status": "VALID",
+  "reason_codes": []
+}
