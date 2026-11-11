@@ -21,3 +21,8 @@ An isolated Docker project with empty application volumes ingested and verified 
 The outage campaign found catalog routes returning HTTP 500; they now return a generic 503 through a tested SQLAlchemy error handler. Final suites: **67 core/API and five dashboard tests passed**, with one known core framework deprecation warning. Local two-client/12-request and eight-client/16-request smoke exercises checked bounded responses. No OOM kills occurred; the maximum sampled validation worker container was 561.5 MiB under its 1-GiB limit. This is sampled local evidence, not a production-load benchmark or an absolute peak guarantee.
 
 Cached extracted source, base images and dependency wheels were reused. Fresh-host/download/extraction, every possible interruption point, host power loss, other architectures and remote CI remain unverified. Original analysis modules/three locks and frozen results are unchanged. Fault-prediction suitability remains NOT_ESTABLISHED without reliable labels; the agent remains disabled. Follow the [complete reproduction and recovery guide](reproduction.md).
+
+## Publication verification
+
+Published application code at 732eafa313411264809667ed15515b2da974392f passed both [core/API and dashboard GitHub Actions jobs](https://github.com/utsav-chokshi/robot-component-health-monitor/actions/runs/42952300583). A clean public clone matched all 96 reviewed source-file hashes, and the public ZIP matched the reviewed archive. Git checkout conversion is disabled because analytical identities bind exact bytes. Earlier stage reports retain the CI status observed at their own measurement time. Subsequent publication updates only documentation/evidence; analysis modules, contracts and dependency locks stay unchanged.
+

@@ -18,4 +18,4 @@ Verify a clean host, archive acquisition/extraction and dependency-cache builds;
 
 ## Deployment hardening
 
-Introduce separate least-privilege database roles, authentication and authorization before exposing services beyond loopback. Add explicit backup/restore verification, retention policy and broader resource/load measurements. Remote CI is configured; publish its outcome only after an observed run.
+Introduce separate least-privilege database roles, authentication and authorization before exposing services beyond loopback. Add explicit backup/restore verification, retention policy and broader resource/load measurements. The published code passed [core/API and dashboard CI jobs](https://github.com/utsav-chokshi/robot-component-health-monitor/actions/runs/42952300583); broader deployment hardening remains future work.

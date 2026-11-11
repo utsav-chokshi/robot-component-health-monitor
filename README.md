@@ -73,7 +73,7 @@ Observed locally on 10 November 2026:
 | Prefect rebuild | Frozen output matched; sampled worker-container maximum 561.5 MiB under a 1-GiB limit |
 | Integrity and outage | Corrupt/missing evidence rejected; database recovery required no API restart |
 
-Fresh-volume validation reused prepared source, base images and dependency caches. Sampling can miss brief memory peaks. Fresh-host download/extraction, other architectures, exhaustive host-power-loss behavior and remote CI results remain unverified. [Verification scope](docs/validation.md) · [Frozen evaluation results and hashes](docs/evaluation-results.md) · [Machine-readable delivery summary](docs/evidence/verification-summary.json).
+Fresh-volume validation reused prepared source, base images and dependency caches. Sampling can miss brief memory peaks. Fresh-host download/extraction, other architectures and exhaustive host-power-loss behavior remain unverified. Published code passed both [core/API and dashboard GitHub Actions jobs](https://github.com/utsav-chokshi/robot-component-health-monitor/actions/runs/42952300583). [Verification scope](docs/validation.md) · [Frozen evaluation results and hashes](docs/evaluation-results.md) · [Machine-readable delivery summary](docs/evidence/verification-summary.json).
 
 The evaluation produced four open-boundary reference-relative alert episodes, one per channel. These are observed signal excursions. The data does not provide reliable per-record healthy/fault-onset labels or exact failure timing, so detection accuracy, false-alarm rate, warning lead time, failure probability and remaining life are not established. Physical amplitude scaling and source timezone also remain unverified. [Metric definitions and interpretation](docs/evaluation.md).
 

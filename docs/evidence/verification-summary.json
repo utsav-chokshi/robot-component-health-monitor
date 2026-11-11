@@ -29,7 +29,7 @@
   "database_outage_recovered_without_api_restart": true,
   "cached_source_images_and_dependencies_reused": true,
   "fresh_host_verified": false,
-  "remote_ci": "NOT_YET_OBSERVED",
+  "remote_ci": "PASSED",
   "detector_suitability": "NOT_ESTABLISHED",
   "agent_enabled": false,
   "feature_build": "1637b79bde988201438686783b303f3ca2e6209a0b82bc4410f4299072494100",
@@ -38,5 +38,7 @@
   "baseline_sha256": "d9bcefd1c46442e8359144c276d1ef31010b9406e5300a80e913e68ab6e0b6ce",
   "source_inventory_sha256": "04deccd0803fe16e262c8ae7539859463677c97338760b9fd41455339c20bdec",
   "validation_guide": "../validation.md",
-  "evaluation_report": "../evaluation-results.md"
+  "evaluation_report": "../evaluation-results.md",
+  "remote_ci_verified_code_commit": "732eafa313411264809667ed15515b2da974392f",
+  "remote_ci_run_url": "https://github.com/utsav-chokshi/robot-component-health-monitor/actions/runs/42952300583"
 }
